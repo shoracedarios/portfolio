@@ -431,7 +431,7 @@ footer p{font-size:.72rem;color:var(--t3)}
 
   <!-- FORM — uses FormSubmit.co with action fallback -->
   <div class="cfbox rv d2">
-    <form id="cf" action="https://formsubmit.co/horaceariel14@gmail.com" method="POST">
+    <form id="cf" action="https://formsubmit.co/c7b52c571012f1a0834f335b68625d41" method="POST">
       <!-- FormSubmit config -->
       <input type="hidden" name="_subject" value="🚀 New Portfolio Contact — Horace Ariel">
       <input type="hidden" name="_template" value="table">
@@ -503,7 +503,7 @@ document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
 // Set _next URL for FormSubmit redirect
 document.getElementById('nextUrl').value=window.location.href;
 
-// Form — try AJAX first, fall back to native submit
+// Form — AJAX submission with fallback
 document.getElementById('cf').addEventListener('submit',async function(e){
   e.preventDefault();
   const btn=document.getElementById('sbtn'),st=document.getElementById('fstat'),fm=this;
@@ -511,7 +511,7 @@ document.getElementById('cf').addEventListener('submit',async function(e){
 
   try{
     const fd=new FormData(fm);
-    const r=await fetch('https://formsubmit.co/ajax/horaceariel14@gmail.com',{
+    const r=await fetch('https://formsubmit.co/ajax/c7b52c571012f1a0834f335b68625d41',{
       method:'POST',headers:{'Accept':'application/json'},body:fd
     });
     const j=await r.json();

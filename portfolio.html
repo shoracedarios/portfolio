@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horace Ariel — Flutter Developer</title>
+<meta name="description" content="Horace Ariel — Flutter Developer, Cotonou Benin. Cross-platform mobile apps & scalable backends.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+/* ========== THEMES ========== */
+[data-theme="dark"]{
+  --bg:#080c15;--bg2:#0d1219;--card:#111923;--cardH:#182030;
+  --inp:rgba(255,255,255,.04);--ac:#00d4ff;--ac2:#6c5ce7;--ac3:#ff6b9d;
+  --glow:rgba(0,212,255,.12);--t1:#eaeff6;--t2:#8594a9;--t3:#4e5d73;
+  --bd:rgba(255,255,255,.06);--bdH:rgba(0,212,255,.3);
+  --sh:0 4px 24px rgba(0,0,0,.25);--shH:0 16px 40px rgba(0,0,0,.35);
+  --navBg:rgba(8,12,21,.78);--grid:rgba(255,255,255,.015);--togBg:rgba(255,255,255,.06);
+  --phoneBg:#141c28;--phoneBd:#232f40;--screenBg:linear-gradient(160deg,#0d1520,#131e30);
+  --dotGrid:rgba(255,255,255,.04)
+}
+[data-theme="light"]{
+  --bg:#f4f6fb;--bg2:#fff;--card:#fff;--cardH:#edf1f8;
+  --inp:rgba(0,0,0,.035);--ac:#0094cc;--ac2:#5a4bd1;--ac3:#e0457b;
+  --glow:rgba(0,148,204,.08);--t1:#131820;--t2:#556278;--t3:#8994a8;
+  --bd:rgba(0,0,0,.07);--bdH:rgba(0,148,204,.3);
+  --sh:0 2px 16px rgba(0,0,0,.05);--shH:0 12px 32px rgba(0,0,0,.08);
+  --navBg:rgba(244,246,251,.82);--grid:rgba(0,0,0,.02);--togBg:rgba(0,0,0,.05);
+  --phoneBg:#e4e9f0;--phoneBd:#cdd4de;--screenBg:linear-gradient(160deg,#eef1f7,#e2e7f0);
+  --dotGrid:rgba(0,0,0,.05)
+}
+
+html{scroll-behavior:smooth}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--t1);line-height:1.7;overflow-x:hidden;transition:background .4s,color .4s}
+
+/* BG */
+.gridbg{position:fixed;inset:0;z-index:0;background:radial-gradient(circle,var(--grid) 1px,transparent 1px);background-size:30px 30px;pointer-events:none;transition:background .4s}
+.gridbg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(0,212,255,.05),transparent),radial-gradient(ellipse 40% 35% at 75% 100%,rgba(108,92,231,.03),transparent)}
+
+section{position:relative;z-index:1}
+.ctn{max-width:1080px;margin:0 auto;padding:0 2rem}
+.gt{background:linear-gradient(135deg,var(--ac),var(--ac2),var(--ac3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* ========== NAV ========== */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:var(--navBg);border-bottom:1px solid var(--bd);transition:all .3s}
+nav.scrolled{padding:.65rem 2rem}
+.nlogo{font-family:'Fira Code',monospace;font-size:1rem;font-weight:600;color:var(--ac)}.nlogo span{color:var(--t3)}
+.nmid{display:flex;gap:2rem;list-style:none;align-items:center}
+.nmid a{color:var(--t2);text-decoration:none;font-size:.82rem;font-weight:500;transition:color .3s;position:relative}
+.nmid a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;background:var(--ac);transition:width .3s;border-radius:2px}
+.nmid a:hover{color:var(--ac)}.nmid a:hover::after{width:100%}
+.ncta{padding:.45rem 1.1rem!important;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff!important;border-radius:8px;font-weight:600!important;text-decoration:none!important}
+.ncta::after{display:none!important}.ncta:hover{opacity:.9}
+.nright{display:flex;align-items:center;gap:.45rem}
+.ntog{width:34px;height:34px;border-radius:8px;background:var(--togBg);border:1px solid var(--bd);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.88rem;transition:all .3s}
+.ntog:hover{border-color:var(--ac);color:var(--ac)}
+.nlang{font-family:'Fira Code',monospace;font-size:.68rem;font-weight:600;letter-spacing:.04em}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.ham span{width:22px;height:2px;background:var(--t2);border-radius:2px;transition:all .3s}
+
+/* MOBILE NAV */
+.mob-menu{display:none;position:absolute;top:100%;left:0;right:0;background:var(--navBg);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);padding:1.5rem 2rem;flex-direction:column;gap:1rem}
+.mob-menu a{color:var(--t2);text-decoration:none;font-size:.9rem;font-weight:500;padding:.4rem 0;transition:color .3s}
+.mob-menu a:hover{color:var(--ac)}
+.mob-menu.show{display:flex}
+
+/* ========== HERO ========== */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:80px}
+.hero-g{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center;width:100%}
+.hbadge{display:inline-flex;align-items:center;gap:.5rem;padding:.32rem .9rem;background:var(--glow);border:1px solid rgba(0,212,255,.15);border-radius:100px;font-size:.7rem;font-weight:600;color:var(--ac);margin-bottom:1.4rem;font-family:'Fira Code',monospace}
+.pdot{width:7px;height:7px;background:#00e676;border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,230,118,.4)}50%{opacity:.7;box-shadow:0 0 0 7px rgba(0,230,118,0)}}
+.hero h1{font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:800;line-height:1.08;letter-spacing:-.04em;margin-bottom:1.1rem}
+.hsub{font-size:1rem;color:var(--t2);margin-bottom:1.8rem;max-width:440px;line-height:1.8;font-weight:300}
+.hbtns{display:flex;gap:.7rem;margin-bottom:2.5rem;flex-wrap:wrap}
+.bm{padding:.7rem 1.6rem;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem}
+.bm:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,255,.2)}
+.bg{padding:.7rem 1.6rem;background:transparent;color:var(--t1);border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem}
+.bg:hover{border-color:var(--ac);color:var(--ac)}
+.hmetrics{display:flex;gap:2.2rem}
+.met .mv{font-size:1.6rem;font-weight:700;font-family:'Fira Code',monospace}
+.met .mv em{color:var(--ac);font-style:normal}
+.met .ml{font-size:.68rem;color:var(--t3);text-transform:uppercase;letter-spacing:.09em;margin-top:.12rem}
+
+/* ========== PHONE ========== */
+.hvis{display:flex;justify-content:center;align-items:center;position:relative}
+.phone{width:240px;height:490px;background:var(--phoneBg);border-radius:34px;border:3px solid var(--phoneBd);position:relative;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.03),0 24px 64px rgba(0,0,0,.3),0 0 40px var(--glow);animation:pf 7s ease-in-out infinite;transition:all .4s}
+@keyframes pf{0%,100%{transform:translateY(0) rotate(2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+.pnotch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:90px;height:24px;background:var(--phoneBg);border-radius:0 0 16px 16px;z-index:10;transition:background .4s}
+.pscreen{position:absolute;inset:10px;border-radius:26px;overflow:hidden;background:var(--screenBg);transition:background .4s}
+
+/* PHONE ANIMATED CONTENT */
+.psc{width:100%;height:100%;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+
+.phone-grid{position:absolute;inset:0;background:radial-gradient(circle,var(--dotGrid) 1px,transparent 1px);background-size:20px 20px;opacity:.5}
+
+/* Floating orbs */
+.orb{position:absolute;border-radius:50%;filter:blur(1px);animation:orbFloat 6s ease-in-out infinite}
+.orb1{width:60px;height:60px;background:radial-gradient(circle,rgba(0,212,255,.25),transparent 70%);top:15%;left:10%;animation-delay:0s}
+.orb2{width:45px;height:45px;background:radial-gradient(circle,rgba(108,92,231,.3),transparent 70%);top:55%;right:12%;animation-delay:2s}
+.orb3{width:35px;height:35px;background:radial-gradient(circle,rgba(255,107,157,.25),transparent 70%);bottom:20%;left:25%;animation-delay:4s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(8px,-12px) scale(1.1)}50%{transform:translate(-5px,-8px) scale(.95)}75%{transform:translate(10px,5px) scale(1.05)}}
+
+/* Center Flutter logo area */
+.phone-center{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+.phone-logo{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,212,255,.2);animation:logoP 3s ease-in-out infinite}
+@keyframes logoP{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+
+/* SVG animated shapes */
+.phone-shapes{position:absolute;inset:0;z-index:1}
+.phone-shapes svg{width:100%;height:100%}
+
+/* Animated lines */
+.anim-line{stroke-dasharray:200;stroke-dashoffset:200;animation:drawLine 3s ease-in-out infinite}
+@keyframes drawLine{0%{stroke-dashoffset:200}50%{stroke-dashoffset:0}100%{stroke-dashoffset:-200}}
+.anim-line.l2{animation-delay:.6s}
+.anim-line.l3{animation-delay:1.2s}
+.anim-line.l4{animation-delay:1.8s}
+
+/* Animated circles */
+.anim-circ{animation:circPulse 4s ease-in-out infinite}
+@keyframes circPulse{0%,100%{r:3;opacity:.5}50%{r:6;opacity:1}}
+.anim-circ.c2{animation-delay:1s}
+.anim-circ.c3{animation-delay:2s}
+.anim-circ.c4{animation-delay:3s}
+
+/* Rotating shape */
+.anim-rot{transform-origin:center;animation:shapeRot 12s linear infinite}
+@keyframes shapeRot{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+.phone-text{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--ac);font-weight:600;letter-spacing:.08em;opacity:.9}
+.phone-sub{font-size:.5rem;color:var(--t3);font-weight:400;letter-spacing:.04em}
+
+/* Floating badges */
+.fb{position:absolute;padding:.5rem .8rem;background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:11px;font-size:.65rem;display:flex;align-items:center;gap:.4rem;animation:bdf 5s ease-in-out infinite;white-space:nowrap;box-shadow:var(--sh);transition:all .4s}
+.fb.tl{top:25px;left:-15px}.fb.br{bottom:45px;right:-25px;animation-delay:2.5s}
+@keyframes bdf{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.fbi{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.7rem}
+.fbi.fl{background:rgba(0,212,255,.12)}.fbi.sp{background:rgba(0,230,118,.12)}
+.fbt{font-weight:600;color:var(--t1);font-size:.68rem}
+.fbs{font-size:.5rem;color:var(--t3)}
+
+/* ========== SECTION HEADERS ========== */
+.sh{margin-bottom:3rem}
+.shl{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--ac);text-transform:uppercase;letter-spacing:.13em;margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
+.shl::before{content:'';width:16px;height:1.5px;background:var(--ac);border-radius:2px}
+.sht{font-size:clamp(1.6rem,2.8vw,2.2rem);font-weight:700;letter-spacing:-.03em;line-height:1.2}
+.shd{color:var(--t2);margin-top:.6rem;max-width:500px;font-weight:300;font-size:.9rem}
+
+/* ========== ABOUT ========== */
+.about{padding:6rem 0}
+.about-g{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
+.atxt p{color:var(--t2);font-weight:300;font-size:.9rem;margin-bottom:1rem;line-height:1.85}
+.atxt strong{color:var(--t1);font-weight:600}
+.ahls{display:flex;flex-direction:column;gap:.8rem}
+.hlc{display:flex;align-items:center;gap:.9rem;padding:1rem;background:var(--card);border:1px solid var(--bd);border-radius:13px;transition:all .3s;box-shadow:var(--sh)}
+.hlc:hover{border-color:var(--bdH);background:var(--cardH);transform:translateX(4px)}
+.hli{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0}
+.hli.c1{background:rgba(0,212,255,.1)}.hli.c2{background:rgba(108,92,231,.1)}.hli.c3{background:rgba(0,230,118,.1)}.hli.c4{background:rgba(255,152,0,.1)}
+.hlt{font-size:.85rem;font-weight:600;margin-bottom:.1rem}
+.hld{font-size:.72rem;color:var(--t3)}
+
+/* ========== SKILLS ========== */
+.skills{padding:5rem 0}
+.skg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.skc{padding:1.6rem;background:var(--card);border:1px solid var(--bd);border-radius:14px;transition:all .4s;position:relative;overflow:hidden;box-shadow:var(--sh)}
+.skc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ac),var(--ac2));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.skc:hover{border-color:var(--bdH);background:var(--cardH);transform:translateY(-3px);box-shadow:var(--shH)}
+.skc:hover::before{transform:scaleX(1)}
+.ski{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:1rem}
+.skc h3{font-size:.9rem;font-weight:600;margin-bottom:.35rem}
+.skc p{font-size:.75rem;color:var(--t3);line-height:1.6;margin-bottom:.9rem}
+.skt{display:flex;flex-wrap:wrap;gap:.3rem}
+.stag{padding:.18rem .55rem;background:var(--togBg);border:1px solid var(--bd);border-radius:5px;font-size:.62rem;font-family:'Fira Code',monospace;color:var(--t2)}
+
+/* ========== SERVICES ========== */
+.services{padding:5rem 0}
+.svg{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem}
+.svc{padding:2rem;background:var(--card);border:1px solid var(--bd);border-radius:16px;transition:all .4s;box-shadow:var(--sh)}
+.svc:hover{border-color:var(--bdH);transform:translateY(-3px);box-shadow:var(--shH)}
+.svn{font-family:'Fira Code',monospace;font-size:.62rem;color:var(--t3);margin-bottom:1rem}
+.svc h3{font-size:1.08rem;font-weight:700;margin-bottom:.6rem;letter-spacing:-.02em}
+.svc>p{color:var(--t2);font-size:.82rem;line-height:1.7;font-weight:300;margin-bottom:1.2rem}
+.svfs{display:flex;flex-direction:column;gap:.45rem}
+.svf{display:flex;align-items:center;gap:.45rem;font-size:.78rem;color:var(--t2)}
+.svf .ck{color:var(--ac);font-size:.82rem}
+
+/* ========== PROCESS ========== */
+.process{padding:5rem 0}
+.pline{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;position:relative}
+.pline::before{content:'';position:absolute;top:31px;left:12%;right:12%;height:2px;background:linear-gradient(90deg,var(--ac),var(--ac2));opacity:.12}
+.pst{text-align:center;position:relative}
+.pnm{width:62px;height:62px;margin:0 auto 1.2rem;background:var(--card);border:2px solid var(--bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:1rem;font-weight:700;color:var(--ac);position:relative;z-index:2;transition:all .3s;box-shadow:var(--sh)}
+.pst:hover .pnm{border-color:var(--ac);box-shadow:0 0 24px var(--glow);transform:scale(1.06)}
+.pst h4{font-size:.88rem;font-weight:600;margin-bottom:.35rem}
+.pst p{font-size:.72rem;color:var(--t3);line-height:1.6;padding:0 .3rem}
+
+/* ========== CONTACT ========== */
+.contact{padding:5rem 0 6rem}
+.ctg{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.ctinfo h2{font-size:clamp(1.6rem,2.8vw,2.2rem);font-weight:700;letter-spacing:-.03em;margin-bottom:.7rem}
+.ctinfo>p{color:var(--t2);font-weight:300;font-size:.9rem;line-height:1.8;margin-bottom:1.8rem}
+.cls{display:flex;flex-direction:column;gap:.7rem}
+.cl{display:flex;align-items:center;gap:.8rem;padding:.85rem 1.1rem;background:var(--card);border:1px solid var(--bd);border-radius:13px;text-decoration:none;color:var(--t1);transition:all .3s;box-shadow:var(--sh)}
+.cl:hover{border-color:var(--bdH);transform:translateX(4px);background:var(--cardH)}
+.cli{width:38px;height:38px;border-radius:9px;background:var(--glow);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--ac);flex-shrink:0}
+.clt{font-size:.8rem;font-weight:500}
+.clsub{font-size:.65rem;color:var(--t3);margin-top:.08rem}
+.cfbox{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:2rem;box-shadow:var(--sh);transition:all .4s}
+.fg{margin-bottom:.9rem}
+.fg label{display:block;font-size:.7rem;font-weight:600;color:var(--t2);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.05em}
+.fg input,.fg textarea,.fg select{width:100%;padding:.75rem .9rem;background:var(--inp);border:1px solid var(--bd);border-radius:9px;color:var(--t1);font-family:inherit;font-size:.85rem;transition:all .3s;outline:none}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--glow)}
+.fg textarea{resize:vertical;min-height:100px}
+.fg select option{background:var(--bg2);color:var(--t1)}
+.fbtn{width:100%;padding:.85rem;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border:none;border-radius:11px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .3s;margin-top:.2rem}
+.fbtn:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,255,.2)}
+.fbtn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.fstat{text-align:center;font-size:.78rem;margin-top:.7rem;min-height:1.2em}
+.fstat.ok{color:#00e676}.fstat.err{color:#ff5252}
+
+/* ========== FOOTER ========== */
+footer{position:relative;z-index:1;padding:1.8rem;text-align:center;border-top:1px solid var(--bd)}
+footer p{font-size:.72rem;color:var(--t3)}
+
+/* ========== ANIMATIONS ========== */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.rv.vis{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:1024px){
+  .hero-g{grid-template-columns:1fr;text-align:center}
+  .hsub{margin:0 auto 1.8rem}
+  .hbtns{justify-content:center}
+  .hmetrics{justify-content:center}
+  .hvis{order:-1;margin-bottom:1.5rem}
+  .phone{width:200px;height:410px}
+  .fb.tl{left:0;top:5px}.fb.br{right:0;bottom:20px}
+  .about-g{grid-template-columns:1fr;gap:2rem}
+  .skg{grid-template-columns:repeat(2,1fr)}
+  .svg{grid-template-columns:1fr}
+  .pline{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+  .pline::before{display:none}
+  .ctg{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .nmid{display:none}
+  .ham{display:flex}
+  .ctn{padding:0 1.2rem}
+  .skg{grid-template-columns:1fr}
+  .pline{grid-template-columns:1fr}
+  .hmetrics{flex-wrap:wrap;gap:1.2rem;justify-content:center}
+  .hbtns{flex-direction:column;align-items:stretch}
+  .bm,.bg{justify-content:center;text-align:center}
+  .hero h1{font-size:2rem}
+  .phone{width:180px;height:370px}
+  .phone-logo{width:44px;height:44px;border-radius:12px}
+  .phone-text{font-size:.55rem}
+  .fb{font-size:.6rem;padding:.4rem .65rem}
+  .fbi{width:20px;height:20px;font-size:.6rem}
+  .hlc{padding:.85rem}
+  .skc{padding:1.3rem}
+  .svc{padding:1.5rem}
+  .cfbox{padding:1.5rem}
+}
+@media(max-width:400px){
+  .hero{padding-top:70px}
+  .hero h1{font-size:1.7rem}
+  .phone{width:160px;height:330px}
+  .fb.tl{left:-5px;font-size:.55rem}.fb.br{right:-5px;font-size:.55rem}
+}
+</style>
+</head>
+<body>
+<div class="gridbg"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nlogo">&lt;<span>horace</span>/&gt;</div>
+  <ul class="nmid">
+    <li><a href="#about" data-i18n="nav_about">About</a></li>
+    <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
+    <li><a href="#services" data-i18n="nav_services">Services</a></li>
+    <li><a href="#process" data-i18n="nav_process">Process</a></li>
+    <li><a href="#contact" class="ncta" data-i18n="nav_contact">Let's Talk</a></li>
+  </ul>
+  <div class="nright">
+    <button class="ntog nlang" id="langBtn" onclick="toggleLang()">EN</button>
+    <button class="ntog" id="themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="ham" id="hamBtn"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <a href="#about" data-i18n="nav_about">About</a>
+  <a href="#skills" data-i18n="nav_skills">Skills</a>
+  <a href="#services" data-i18n="nav_services">Services</a>
+  <a href="#process" data-i18n="nav_process">Process</a>
+  <a href="#contact" data-i18n="nav_contact">Let's Talk</a>
+</div>
+
+<!-- HERO -->
+<section class="hero"><div class="ctn"><div class="hero-g">
+  <div>
+    <div class="hbadge"><div class="pdot"></div><span data-i18n="hero_badge">Available for remote work</span></div>
+    <h1><span data-i18n="hero_t1">I build</span><br><span class="gt" data-i18n="hero_t2">mobile experiences</span><br><span data-i18n="hero_t3">that matter.</span></h1>
+    <p class="hsub" data-i18n="hero_sub">Flutter developer & backend engineer crafting performant, beautiful mobile applications — from concept to deployment.</p>
+    <div class="hbtns">
+      <a href="#contact" class="bm">💬 <span data-i18n="hero_btn1">Start a project</span></a>
+      <a href="#services" class="bg">↓ <span data-i18n="hero_btn2">See what I do</span></a>
+    </div>
+    <div class="hmetrics">
+      <div class="met"><div class="mv">2<em>+</em></div><div class="ml" data-i18n="hero_m1">Years Experience</div></div>
+      <div class="met"><div class="mv">3<em>+</em></div><div class="ml" data-i18n="hero_m2">Apps Delivered</div></div>
+      <div class="met"><div class="mv">100<em>%</em></div><div class="ml">Remote</div></div>
+    </div>
+  </div>
+
+  <!-- PHONE WITH ANIMATED SVG -->
+  <div class="hvis">
+    <div class="fb tl"><div class="fbi fl">💙</div><div><div class="fbt">Flutter</div><div class="fbs">Cross-platform</div></div></div>
+    <div class="phone">
+      <div class="pnotch"></div>
+      <div class="pscreen">
+        <div class="psc">
+          <div class="phone-grid"></div>
+          <div class="phone-shapes">
+            <svg viewBox="0 0 220 470" fill="none">
+              <!-- Animated connecting lines -->
+              <line x1="30" y1="80" x2="190" y2="160" stroke="var(--ac)" stroke-width="1" opacity=".3" class="anim-line"/>
+              <line x1="180" y1="100" x2="40" y2="250" stroke="var(--ac2)" stroke-width="1" opacity=".25" class="anim-line l2"/>
+              <line x1="50" y1="300" x2="170" y2="380" stroke="var(--ac3)" stroke-width="1" opacity=".2" class="anim-line l3"/>
+              <line x1="110" y1="50" x2="110" y2="420" stroke="var(--ac)" stroke-width=".5" opacity=".1" class="anim-line l4"/>
+              <!-- Pulsing nodes -->
+              <circle cx="50" cy="120" r="4" fill="var(--ac)" opacity=".6" class="anim-circ"/>
+              <circle cx="170" cy="200" r="4" fill="var(--ac2)" opacity=".5" class="anim-circ c2"/>
+              <circle cx="80" cy="340" r="4" fill="var(--ac3)" opacity=".5" class="anim-circ c3"/>
+              <circle cx="150" cy="400" r="4" fill="var(--ac)" opacity=".4" class="anim-circ c4"/>
+              <!-- Rotating hexagon -->
+              <g class="anim-rot" style="transform-origin:110px 235px">
+                <polygon points="110,190 145,210 145,250 110,270 75,250 75,210" stroke="var(--ac)" stroke-width=".8" fill="none" opacity=".12"/>
+              </g>
+              <!-- Outer ring -->
+              <circle cx="110" cy="235" r="55" stroke="var(--ac2)" stroke-width=".5" fill="none" opacity=".08" stroke-dasharray="4 6"/>
+            </svg>
+          </div>
+          <div class="orb orb1"></div>
+          <div class="orb orb2"></div>
+          <div class="orb orb3"></div>
+          <div class="phone-center">
+            <div class="phone-logo">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-14 9V3z" fill="#fff" opacity=".9"/></svg>
+            </div>
+            <div class="phone-text">BUILD. SHIP. REPEAT.</div>
+            <div class="phone-sub">flutter × spring boot</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fb br"><div class="fbi sp">🍃</div><div><div class="fbt">Spring Boot</div><div class="fbs">Backend APIs</div></div></div>
+  </div>
+</div></div></section>
+
+<!-- ABOUT -->
+<section class="about" id="about"><div class="ctn"><div class="about-g">
+  <div class="atxt rv">
+    <div class="sh"><div class="shl" data-i18n="about_label">About me</div><h2 class="sht" data-i18n="about_title">Full-stack mobile engineer who ships.</h2></div>
+    <p data-i18n="about_p1">I'm <strong>Horace Ariel</strong>, a Flutter developer based in <strong>Cotonou, Benin</strong> with 2+ years of experience building cross-platform mobile applications from the ground up. I handle everything — from pixel-perfect UI to API integration and backend architecture.</p>
+    <p data-i18n="about_p2">On the backend, I work with <strong>Spring Boot</strong> to design scalable microservices with service orchestration, database management (PostgreSQL, MySQL, Redis), and real-time protocols like <strong>MQTT</strong>.</p>
+    <p data-i18n="about_p3">I prioritize <strong>remote collaboration</strong> and have delivered multiple production applications for clients under NDA. Clean code, solid architecture, and applications users love — that's what I'm about.</p>
+  </div>
+  <div class="ahls">
+    <div class="hlc rv d1"><div class="hli c1">📱</div><div><div class="hlt" data-i18n="hl1_t">Mobile-First Expert</div><div class="hld" data-i18n="hl1_d">Beautiful, performant apps on iOS & Android from a single Flutter codebase</div></div></div>
+    <div class="hlc rv d2"><div class="hli c2">⚙️</div><div><div class="hlt" data-i18n="hl2_t">Backend Architect</div><div class="hld" data-i18n="hl2_d">Spring Boot microservices, REST APIs, Redis caching, MQTT real-time</div></div></div>
+    <div class="hlc rv d3"><div class="hli c3">🚀</div><div><div class="hlt" data-i18n="hl3_t">DevOps Ready</div><div class="hld" data-i18n="hl3_d">Docker, Ansible, CI/CD — I deploy and maintain what I build</div></div></div>
+    <div class="hlc rv d4"><div class="hli c4">🌍</div><div><div class="hlt" data-i18n="hl4_t">100% Remote</div><div class="hld" data-i18n="hl4_d">Experienced remote worker — async communication, clean docs</div></div></div>
+  </div>
+</div></div></section>
+
+<!-- SKILLS -->
+<section class="skills" id="skills"><div class="ctn">
+  <div class="sh rv"><div class="shl" data-i18n="sk_label">Tech Stack</div><h2 class="sht" data-i18n="sk_title">Tools & Technologies</h2><p class="shd" data-i18n="sk_desc">Technologies I use daily to build robust mobile apps and scalable backends.</p></div>
+  <div class="skg">
+    <div class="skc rv d1"><div class="ski" style="background:rgba(0,212,255,.1)">💙</div><h3>Flutter & Dart</h3><p data-i18n="sk1_d">Cross-platform mobile development with custom widgets, state management, and native integrations.</p><div class="skt"><span class="stag">Dart</span><span class="stag">BLoC</span><span class="stag">Provider</span><span class="stag">Riverpod</span><span class="stag">Custom UI</span></div></div>
+    <div class="skc rv d2"><div class="ski" style="background:rgba(0,230,118,.1)">🍃</div><h3>Spring Boot</h3><p data-i18n="sk2_d">Backend development with microservices architecture, RESTful APIs, and service orchestration.</p><div class="skt"><span class="stag">Java</span><span class="stag">REST API</span><span class="stag">Microservices</span><span class="stag">Security</span></div></div>
+    <div class="skc rv d3"><div class="ski" style="background:rgba(255,152,0,.1)">🗄️</div><h3 data-i18n="sk3_t">Databases</h3><p data-i18n="sk3_d">Data modeling, query optimization, and caching strategies for high-performance apps.</p><div class="skt"><span class="stag">PostgreSQL</span><span class="stag">MySQL</span><span class="stag">Redis</span><!--<span class="stag">MQTT</span>--></div></div>
+    <div class="skc rv d1"><div class="ski" style="background:rgba(108,92,231,.1)">🐳</div><h3>DevOps</h3><p data-i18n="sk4_d">Containerization, automation, and deployment pipelines for reliable delivery.</p><div class="skt"><span class="stag">Docker</span><span class="stag">Ansible</span><span class="stag">CI/CD</span><span class="stag">Linux</span></div></div>
+    <div class="skc rv d2"><div class="ski" style="background:rgba(255,107,157,.1)">🔀</div><h3>Version Control</h3><p data-i18n="sk5_d">Clean branching strategies, code reviews, and collaborative workflows.</p><div class="skt"><span class="stag">Git</span><span class="stag">GitHub</span><span class="stag">GitLab</span><span class="stag">Git Flow</span></div></div>
+    <div class="skc rv d3"><div class="ski" style="background:rgba(0,212,255,.1)">📡</div><h3 data-i18n="sk6_t">Protocols & Integration</h3><p data-i18n="sk6_d">API integration, real-time messaging, and IoT connectivity.</p><div class="skt"><span class="stag">REST</span><span class="stag">MQTT</span><span class="stag">WebSocket</span><span class="stag">Firebase</span></div></div>
+  </div>
+</div></section>
+
+<!-- SERVICES -->
+<section class="services" id="services"><div class="ctn">
+  <div class="sh rv"><div class="shl" data-i18n="sv_label">What I Do</div><h2 class="sht" data-i18n="sv_title">Services</h2><p class="shd" data-i18n="sv_desc">Need a mobile app or a backend to power it? I've got you covered.</p></div>
+  <div class="svg">
+    <div class="svc rv d1"><div class="svn">01</div><h3 data-i18n="sv1_t">Mobile App Development</h3><p data-i18n="sv1_d">Full cross-platform apps with Flutter. From wireframes to App Store — production-ready, beautiful, and fast.</p><div class="svfs"><div class="svf"><span class="ck">✦</span><span data-i18n="sv1_f1">iOS & Android from one codebase</span></div><div class="svf"><span class="ck">✦</span><span data-i18n="sv1_f2">Custom UI/UX implementation</span></div><div class="svf"><span class="ck">✦</span><span data-i18n="sv1_f3">State management & architecture</span></div><div class="svf"><span class="ck">✦</span><span data-i18n="sv1_f4">Push notifications & deep linking</span></div></div></div>
+    <div class="svc rv d2"><div class="svn">02</div><h3 data-i18n="sv2_t">Backend & API Development</h3><p data-i18n="sv2_d">Scalable backends with Spring Boot. Microservices, REST APIs, real-time data — built for reliability.</p><div class="svfs"><div class="svf"><span class="ck">✦</span><span data-i18n="sv2_f1">Microservices architecture</span></div><div class="svf"><span class="ck">✦</span><span data-i18n="sv2_f2">RESTful API design</span></div><div class="svf"><span class="ck">✦</span><span data-i18n="sv2_f3">Database design & optimization</span></div><div class="svf"><span class="ck">✦</span><span data-i18n="sv2_f4">Real-time with MQTT / WebSocket</span></div></div></div>
+    <div class="svc rv d3"><div class="svn">03</div><h3 data-i18n="sv3_t">Full-Stack Mobile Solutions</h3><p data-i18n="sv3_d">End-to-end — app and server. One developer, one vision, seamless integration.</p><div class="svfs"><div class="svf"><span class="ck">✦</span><span>Flutter + Spring Boot</span></div><div class="svf"><span class="ck">✦</span><span data-i18n="sv3_f2">Database to UI pipeline</span></div><div class="svf"><span class="ck">✦</span><span data-i18n="sv3_f3">Authentication & security</span></div><div class="svf"><span class="ck">✦</span><span data-i18n="sv3_f4">IoT / connected devices</span></div></div></div>
+    <div class="svc rv d4"><div class="svn">04</div><h3 data-i18n="sv4_t">DevOps & Deployment</h3><p data-i18n="sv4_d">I don't just build — I ship. Docker, automation, and monitoring for production.</p><div class="svfs"><div class="svf"><span class="ck">✦</span><span data-i18n="sv4_f1">Docker containerization</span></div><div class="svf"><span class="ck">✦</span><span data-i18n="sv4_f2">Ansible automation</span></div><div class="svf"><span class="ck">✦</span><span data-i18n="sv4_f3">CI/CD pipeline setup</span></div><div class="svf"><span class="ck">✦</span><span data-i18n="sv4_f4">App Store deployment</span></div></div></div>
+  </div>
+</div></section>
+
+<!-- PROCESS -->
+<section class="process" id="process"><div class="ctn">
+  <div class="sh rv"><div class="shl" data-i18n="pr_label">How I Work</div><h2 class="sht" data-i18n="pr_title">From Idea to Launch</h2><p class="shd" data-i18n="pr_desc">A structured process with full transparency at every stage.</p></div>
+  <div class="pline">
+    <div class="pst rv d1"><div class="pnm">01</div><h4 data-i18n="pr1_t">Discovery</h4><p data-i18n="pr1_d">We discuss your vision, goals, and requirements. I map out scope and timeline.</p></div>
+    <div class="pst rv d2"><div class="pnm">02</div><h4 data-i18n="pr2_t">Architecture</h4><p data-i18n="pr2_d">I design the architecture, choose patterns, and set up the dev environment.</p></div>
+    <div class="pst rv d3"><div class="pnm">03</div><h4 data-i18n="pr3_t">Development</h4><p data-i18n="pr3_d">Agile sprints with weekly demos. You see progress and give feedback each iteration.</p></div>
+    <div class="pst rv d4"><div class="pnm">04</div><h4 data-i18n="pr4_t">Launch</h4><p data-i18n="pr4_d">Testing, optimization, store submission. I stay available post-launch.</p></div>
+  </div>
+</div></section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact"><div class="ctn"><div class="ctg">
+  <div class="ctinfo rv">
+    <div class="shl" data-i18n="ct_label">Get in Touch</div>
+    <h2><span data-i18n="ct_t1">Let's build something</span> <span class="gt" data-i18n="ct_t2">great</span> <span data-i18n="ct_t3">together.</span></h2>
+    <p data-i18n="ct_desc">Have a mobile app idea? Need a reliable developer? I'm always open to opportunities — freelance, contract, or full-time remote.</p>
+    <div class="cls">
+      <a href="mailto:horaceariel14@gmail.com" class="cl"><div class="cli">✉</div><div><div class="clt">horaceariel14@gmail.com</div><div class="clsub" data-i18n="ct_esub">I reply within 24h</div></div></a>
+      <a href="https://wa.me/2290157574625" target="_blank" class="cl"><div class="cli">💬</div><div><div class="clt">+229 01 57 57 46 25</div><div class="clsub">WhatsApp / Call</div></div></a>
+      <a href="https://github.com/shoracedarios" target="_blank" class="cl"><div class="cli">⟨/⟩</div><div><div class="clt">github.com/shoracedarios</div><div class="clsub" data-i18n="ct_gsub">Check out my work</div></div></a>
+    </div>
+  </div>
+
+  <!-- FORM — uses FormSubmit.co with action fallback -->
+  <div class="cfbox rv d2">
+    <form id="cf" action="https://formsubmit.co/horaceariel14@gmail.com" method="POST">
+      <!-- FormSubmit config -->
+      <input type="hidden" name="_subject" value="🚀 New Portfolio Contact — Horace Ariel">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="text" name="_honey" style="display:none">
+      <input type="hidden" name="_next" id="nextUrl">
+
+      <div class="fg"><label data-i18n="f_name">Your Name</label><input type="text" name="name" required placeholder="John Doe"></div>
+      <div class="fg"><label>Email</label><input type="email" name="email" required placeholder="john@company.com"></div>
+      <div class="fg"><label data-i18n="f_type">Project Type</label>
+        <select name="project_type" required>
+          <option value="" data-i18n="f_sel">Select a service</option>
+          <option value="Mobile App (Flutter)" data-i18n="f_o1">Mobile App (Flutter)</option>
+          <option value="Backend / API" data-i18n="f_o2">Backend / API</option>
+          <option value="Full-Stack Solution" data-i18n="f_o3">Full-Stack Solution</option>
+          <option value="DevOps" data-i18n="f_o4">DevOps & Deployment</option>
+          <option value="Other" data-i18n="f_o5">Other</option>
+        </select>
+      </div>
+      <div class="fg"><label data-i18n="f_msg">Tell me about your project</label><textarea name="message" required placeholder="Describe your project, timeline, and requirements..."></textarea></div>
+      <button type="submit" class="fbtn" id="sbtn" data-i18n="f_send">Send Message →</button>
+      <div class="fstat" id="fstat"></div>
+    </form>
+  </div>
+</div></div></section>
+
+<footer><p data-i18n="footer">© 2026 Horace Ariel — Cotonou, Benin. Built with ♥</p></footer>
+
+<script>
+// ===== i18n =====
+const T={en:{nav_about:"About",nav_skills:"Skills",nav_services:"Services",nav_process:"Process",nav_contact:"Let's Talk",hero_badge:"Available for remote work",hero_t1:"I build",hero_t2:"mobile experiences",hero_t3:"that matter.",hero_sub:"Flutter developer & backend engineer crafting performant, beautiful mobile applications — from concept to deployment.",hero_btn1:"Start a project",hero_btn2:"See what I do",hero_m1:"Years Experience",hero_m2:"Apps Delivered",about_label:"About me",about_title:"Full-stack mobile engineer who ships.",about_p1:'I\'m <strong>Horace Ariel</strong>, a Flutter developer based in <strong>Cotonou, Benin</strong> with 2+ years of experience building cross-platform mobile applications from the ground up. I handle everything — from pixel-perfect UI to API integration and backend architecture.',about_p2:'On the backend, I work with <strong>Spring Boot</strong> to design scalable microservices with service orchestration, database management (PostgreSQL, MySQL, Redis), and real-time protocols like <strong>MQTT</strong>.',about_p3:'I prioritize <strong>remote collaboration</strong> and have delivered multiple production applications for clients under NDA. Clean code, solid architecture, and applications users love — that\'s what I\'m about.',hl1_t:"Mobile-First Expert",hl1_d:"Beautiful, performant apps on iOS & Android from a single Flutter codebase",hl2_t:"Backend Architect",hl2_d:"Spring Boot microservices, REST APIs, Redis caching, MQTT real-time",hl3_t:"DevOps Ready",hl3_d:"Docker, Ansible, CI/CD — I deploy and maintain what I build",hl4_t:"100% Remote",hl4_d:"Experienced remote worker — async communication, clean docs",sk_label:"Tech Stack",sk_title:"Tools & Technologies",sk_desc:"Technologies I use daily to build robust mobile apps and scalable backends.",sk1_d:"Cross-platform mobile development with custom widgets, state management, and native integrations.",sk2_d:"Backend development with microservices architecture, RESTful APIs, and service orchestration.",sk3_t:"Databases",sk3_d:"Data modeling, query optimization, and caching strategies for high-performance apps.",sk4_d:"Containerization, automation, and deployment pipelines for reliable delivery.",sk5_d:"Clean branching strategies, code reviews, and collaborative workflows.",sk6_t:"Protocols & Integration",sk6_d:"API integration, real-time messaging, and IoT connectivity.",sv_label:"What I Do",sv_title:"Services",sv_desc:"Need a mobile app or a backend to power it? I've got you covered.",sv1_t:"Mobile App Development",sv1_d:"Full cross-platform apps with Flutter. From wireframes to App Store — production-ready, beautiful, and fast.",sv1_f1:"iOS & Android from one codebase",sv1_f2:"Custom UI/UX implementation",sv1_f3:"State management & architecture",sv1_f4:"Push notifications & deep linking",sv2_t:"Backend & API Development",sv2_d:"Scalable backends with Spring Boot. Microservices, REST APIs, real-time data — built for reliability.",sv2_f1:"Microservices architecture",sv2_f2:"RESTful API design",sv2_f3:"Database design & optimization",sv2_f4:"Real-time with MQTT / WebSocket",sv3_t:"Full-Stack Mobile Solutions",sv3_d:"End-to-end — app and server. One developer, one vision, seamless integration.",sv3_f2:"Database to UI pipeline",sv3_f3:"Authentication & security",sv3_f4:"IoT / connected devices",sv4_t:"DevOps & Deployment",sv4_d:"I don't just build — I ship. Docker, automation, and monitoring for production.",sv4_f1:"Docker containerization",sv4_f2:"Ansible automation",sv4_f3:"CI/CD pipeline setup",sv4_f4:"App Store deployment",pr_label:"How I Work",pr_title:"From Idea to Launch",pr_desc:"A structured process with full transparency at every stage.",pr1_t:"Discovery",pr1_d:"We discuss your vision, goals, and requirements. I map out scope and timeline.",pr2_t:"Architecture",pr2_d:"I design the architecture, choose patterns, and set up the dev environment.",pr3_t:"Development",pr3_d:"Agile sprints with weekly demos. You see progress and give feedback each iteration.",pr4_t:"Launch",pr4_d:"Testing, optimization, store submission. I stay available post-launch.",ct_label:"Get in Touch",ct_t1:"Let's build something",ct_t2:"great",ct_t3:"together.",ct_desc:"Have a mobile app idea? Need a reliable developer? I'm always open to opportunities — freelance, contract, or full-time remote.",ct_esub:"I reply within 24h",ct_gsub:"Check out my work",f_name:"Your Name",f_type:"Project Type",f_sel:"Select a service",f_o1:"Mobile App (Flutter)",f_o2:"Backend / API",f_o3:"Full-Stack Solution",f_o4:"DevOps & Deployment",f_o5:"Other",f_msg:"Tell me about your project",f_send:"Send Message →",f_sending:"Sending...",f_ok:"✓ Message sent! I'll get back to you soon.",f_err:"Something went wrong. Try emailing me directly.",footer:"© 2026 Horace Ariel — Cotonou, Benin. Built with ♥"},
+fr:{nav_about:"À propos",nav_skills:"Compétences",nav_services:"Services",nav_process:"Processus",nav_contact:"Contact",hero_badge:"Disponible en télétravail",hero_t1:"Je crée des",hero_t2:"expériences mobiles",hero_t3:"qui comptent.",hero_sub:"Développeur Flutter & ingénieur backend — applications mobiles performantes et élégantes, du concept au déploiement.",hero_btn1:"Démarrer un projet",hero_btn2:"Voir mes services",hero_m1:"Ans d'expérience",hero_m2:"Apps livrées",about_label:"À propos",about_title:"Ingénieur mobile full-stack qui livre.",about_p1:'Je suis <strong>Horace Ariel</strong>, développeur Flutter à <strong>Cotonou, Bénin</strong> avec 2+ ans d\'expérience en création d\'apps mobiles multiplateformes. Je gère tout — de l\'UI pixel-perfect à l\'intégration API et l\'architecture backend.',about_p2:'Côté backend, je travaille avec <strong>Spring Boot</strong> pour des microservices scalables, gestion BDD (PostgreSQL, MySQL, Redis) et protocoles temps réel comme <strong>MQTT</strong>.',about_p3:'Je privilégie la <strong>collaboration à distance</strong> et j\'ai livré plusieurs apps en production sous NDA. Code propre, architecture solide — c\'est mon credo.',hl1_t:"Expert Mobile-First",hl1_d:"Apps belles et performantes sur iOS & Android depuis un seul codebase Flutter",hl2_t:"Architecte Backend",hl2_d:"Microservices Spring Boot, APIs REST, cache Redis, temps réel MQTT",hl3_t:"DevOps Prêt",hl3_d:"Docker, Ansible, CI/CD — je déploie et maintiens ce que je construis",hl4_t:"100% Télétravail",hl4_d:"Collaborateur remote expérimenté — communication async, docs soignées",sk_label:"Stack Technique",sk_title:"Outils & Technologies",sk_desc:"Les technologies que j'utilise au quotidien pour des apps robustes et des backends scalables.",sk1_d:"Développement mobile multiplateforme avec widgets personnalisés, gestion d'état et intégrations natives.",sk2_d:"Développement backend avec architecture microservices, APIs RESTful et orchestration de services.",sk3_t:"Bases de données",sk3_d:"Modélisation de données, optimisation de requêtes et stratégies de cache.",sk4_d:"Conteneurisation, automatisation et pipelines de déploiement fiables.",sk5_d:"Stratégies de branching, revues de code et workflows collaboratifs.",sk6_t:"Protocoles & Intégration",sk6_d:"Intégration d'APIs, messagerie temps réel et connectivité IoT.",sv_label:"Ce que je fais",sv_title:"Services",sv_desc:"App mobile ou backend pour la propulser ? Je m'en occupe.",sv1_t:"Développement App Mobile",sv1_d:"Apps multiplateformes Flutter. De la maquette à l'App Store — prêtes pour la production.",sv1_f1:"iOS & Android depuis un seul codebase",sv1_f2:"Implémentation UI/UX sur mesure",sv1_f3:"Gestion d'état & architecture",sv1_f4:"Notifications push & deep linking",sv2_t:"Backend & API",sv2_d:"Backends scalables Spring Boot. Microservices, APIs REST, données temps réel.",sv2_f1:"Architecture microservices",sv2_f2:"Conception d'API RESTful",sv2_f3:"Conception & optimisation BDD",sv2_f4:"Temps réel MQTT / WebSocket",sv3_t:"Solutions Full-Stack",sv3_d:"De bout en bout — app et serveur. Un développeur, une vision, intégration sans faille.",sv3_f2:"Pipeline BDD vers UI",sv3_f3:"Authentification & sécurité",sv3_f4:"IoT / appareils connectés",sv4_t:"DevOps & Déploiement",sv4_d:"Je ne fais pas que construire — je livre. Docker, automatisation et monitoring.",sv4_f1:"Conteneurisation Docker",sv4_f2:"Automatisation Ansible",sv4_f3:"Pipeline CI/CD",sv4_f4:"Déploiement App Store",pr_label:"Ma Méthode",pr_title:"De l'Idée au Lancement",pr_desc:"Un processus structuré avec transparence totale à chaque étape.",pr1_t:"Découverte",pr1_d:"On discute vision, objectifs et besoins. Je définis le périmètre et le planning.",pr2_t:"Architecture",pr2_d:"Je conçois l'architecture, choisis les patterns et configure l'environnement.",pr3_t:"Développement",pr3_d:"Sprints agiles avec démos hebdomadaires. Feedback à chaque itération.",pr4_t:"Lancement",pr4_d:"Tests, optimisation, soumission en store. Support post-lancement inclus.",ct_label:"Contact",ct_t1:"Construisons quelque chose de",ct_t2:"génial",ct_t3:"ensemble.",ct_desc:"Idée d'app mobile ? Besoin d'un dev fiable ? Ouvert aux opportunités — freelance, contrat ou CDI remote.",ct_esub:"Je réponds sous 24h",ct_gsub:"Voir mes projets",f_name:"Votre Nom",f_type:"Type de Projet",f_sel:"Sélectionner un service",f_o1:"App Mobile (Flutter)",f_o2:"Backend / API",f_o3:"Solution Full-Stack",f_o4:"DevOps & Déploiement",f_o5:"Autre",f_msg:"Parlez-moi de votre projet",f_send:"Envoyer →",f_sending:"Envoi...",f_ok:"✓ Message envoyé ! Je reviens vers vous rapidement.",f_err:"Erreur. Écrivez-moi directement par email.",footer:"© 2026 Horace Ariel — Cotonou, Bénin. Fait avec ♥"}};
+
+let lang='en';
+function setLang(l){
+  lang=l;
+  document.getElementById('langBtn').textContent=l.toUpperCase();
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(!T[l][k])return;
+    if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')return;
+    el.innerHTML=T[l][k];
+  });
+}
+function toggleLang(){setLang(lang==='en'?'fr':'en')}
+
+let theme='dark';
+function setTheme(t){theme=t;document.documentElement.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙'}
+function toggleTheme(){setTheme(theme==='dark'?'light':'dark')}
+
+// Nav scroll
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50));
+
+// Hamburger
+document.getElementById('hamBtn').addEventListener('click',()=>document.getElementById('mobMenu').classList.toggle('show'));
+
+// Smooth scroll + close mobile menu
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',function(e){
+  e.preventDefault();
+  const t=document.querySelector(this.getAttribute('href'));
+  if(t){t.scrollIntoView({behavior:'smooth',block:'start'});document.getElementById('mobMenu').classList.remove('show')}
+}));
+
+// Scroll reveal
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:.06,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+
+// Set _next URL for FormSubmit redirect
+document.getElementById('nextUrl').value=window.location.href;
+
+// Form — try AJAX first, fall back to native submit
+document.getElementById('cf').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const btn=document.getElementById('sbtn'),st=document.getElementById('fstat'),fm=this;
+  btn.disabled=true;btn.textContent=T[lang].f_sending;st.textContent='';st.className='fstat';
+
+  try{
+    const fd=new FormData(fm);
+    const r=await fetch('https://formsubmit.co/ajax/horaceariel14@gmail.com',{
+      method:'POST',headers:{'Accept':'application/json'},body:fd
+    });
+    const j=await r.json();
+    if(j.success){
+      st.textContent=T[lang].f_ok;st.className='fstat ok';fm.reset();
+    } else throw new Error('fail');
+  }catch(x){
+    // AJAX failed — submit form normally (page redirect)
+    fm.submit();
+    return;
+  }
+  btn.disabled=false;btn.textContent=T[lang].f_send;
+});
+</script>
+</body>
+</html>

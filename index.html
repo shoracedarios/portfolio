@@ -5,6 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Horace Ariel — Flutter Developer</title>
 <meta name="description" content="Horace Ariel — Flutter Developer, Cotonou Benin. Cross-platform mobile apps & scalable backends.">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23080c15'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='700' font-size='20' fill='%2300d4ff'%3EH%3C/text%3E%3C/svg%3E">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Horace Ariel — Flutter Developer">
+<meta property="og:description" content="Flutter developer & backend engineer crafting performant, beautiful mobile applications — from concept to deployment.">
+<meta property="og:image" content="https://YOUR-DOMAIN.com/og-preview.png"><!-- Remplace par l'URL absolue de ton image de prévisualisation -->
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Horace Ariel — Flutter Developer">
+<meta name="twitter:description" content="Flutter developer & backend engineer — mobile apps & scalable backends from Cotonou, Benin.">
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Horace Ariel","jobTitle":"Flutter Developer","email":"horaceariel14@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Cotonou","addressCountry":"BJ"},"sameAs":["https://github.com/shoracedarios"]}</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -40,6 +58,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--t1);line-
 .gridbg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(0,212,255,.05),transparent),radial-gradient(ellipse 40% 35% at 75% 100%,rgba(108,92,231,.03),transparent)}
 
 section{position:relative;z-index:1}
+section[id]{scroll-margin-top:80px}
 .ctn{max-width:1080px;margin:0 auto;padding:0 2rem}
 .gt{background:linear-gradient(135deg,var(--ac),var(--ac2),var(--ac3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
@@ -51,6 +70,7 @@ nav.scrolled{padding:.65rem 2rem}
 .nmid a{color:var(--t2);text-decoration:none;font-size:.82rem;font-weight:500;transition:color .3s;position:relative}
 .nmid a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;background:var(--ac);transition:width .3s;border-radius:2px}
 .nmid a:hover{color:var(--ac)}.nmid a:hover::after{width:100%}
+.nmid a.active{color:var(--ac)}.nmid a.active::after{width:100%}
 .ncta{padding:.45rem 1.1rem!important;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff!important;border-radius:8px;font-weight:600!important;text-decoration:none!important}
 .ncta::after{display:none!important}.ncta:hover{opacity:.9}
 .nright{display:flex;align-items:center;gap:.45rem}
@@ -59,6 +79,9 @@ nav.scrolled{padding:.65rem 2rem}
 .nlang{font-family:'Fira Code',monospace;font-size:.68rem;font-weight:600;letter-spacing:.04em}
 .ham{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
 .ham span{width:22px;height:2px;background:var(--t2);border-radius:2px;transition:all .3s}
+.ham.active span:nth-child(1){transform:translateY(7px) rotate(45deg);background:var(--ac)}
+.ham.active span:nth-child(2){opacity:0;transform:scaleX(0)}
+.ham.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);background:var(--ac)}
 
 /* MOBILE NAV */
 .mob-menu{display:none;position:absolute;top:100%;left:0;right:0;background:var(--navBg);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);padding:1.5rem 2rem;flex-direction:column;gap:1rem}
@@ -288,9 +311,9 @@ footer p{font-size:.72rem;color:var(--t3)}
     <li><a href="#contact" class="ncta" data-i18n="nav_contact">Let's Talk</a></li>
   </ul>
   <div class="nright">
-    <button class="ntog nlang" id="langBtn" onclick="toggleLang()">EN</button>
-    <button class="ntog" id="themeBtn" onclick="toggleTheme()">☀️</button>
-    <button class="ham" id="hamBtn"><span></span><span></span><span></span></button>
+    <button class="ntog nlang" id="langBtn" onclick="toggleLang()" aria-label="Changer la langue">EN</button>
+    <button class="ntog" id="themeBtn" onclick="toggleTheme()" aria-label="Changer le thème">☀️</button>
+    <button class="ham" id="hamBtn" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
@@ -300,7 +323,7 @@ footer p{font-size:.72rem;color:var(--t3)}
   <a href="#skills" data-i18n="nav_skills">Skills</a>
   <a href="#services" data-i18n="nav_services">Services</a>
   <a href="#process" data-i18n="nav_process">Process</a>
-  <a href="#contact" data-i18n="nav_contact">Let's Talk</a>
+  <a href="#contact" class="ncta" data-i18n="nav_contact" style="text-align:center">Let's Talk</a>
 </div>
 
 <!-- HERO -->
@@ -487,14 +510,42 @@ function toggleTheme(){setTheme(theme==='dark'?'light':'dark')}
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50));
 
 // Hamburger
-document.getElementById('hamBtn').addEventListener('click',()=>document.getElementById('mobMenu').classList.toggle('show'));
+document.getElementById('hamBtn').addEventListener('click',()=>{
+  const menu=document.getElementById('mobMenu');
+  const btn=document.getElementById('hamBtn');
+  const isOpen=menu.classList.toggle('show');
+  btn.classList.toggle('active',isOpen);
+  btn.setAttribute('aria-expanded',isOpen);
+  btn.setAttribute('aria-label',isOpen?'Fermer le menu':'Ouvrir le menu');
+});
 
 // Smooth scroll + close mobile menu
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',function(e){
   e.preventDefault();
   const t=document.querySelector(this.getAttribute('href'));
-  if(t){t.scrollIntoView({behavior:'smooth',block:'start'});document.getElementById('mobMenu').classList.remove('show')}
+  if(t){
+    t.scrollIntoView({behavior:'smooth',block:'start'});
+    const menu=document.getElementById('mobMenu');
+    const btn=document.getElementById('hamBtn');
+    menu.classList.remove('show');
+    btn.classList.remove('active');
+    btn.setAttribute('aria-expanded','false');
+    btn.setAttribute('aria-label','Ouvrir le menu');
+  }
 }));
+
+// Active nav on scroll
+const navLinks=document.querySelectorAll('.nmid a[href^="#"]');
+const secObs=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      navLinks.forEach(a=>a.classList.remove('active'));
+      const lk=document.querySelector(`.nmid a[href="#${en.target.id}"]`);
+      if(lk)lk.classList.add('active');
+    }
+  });
+},{rootMargin:'-80px 0px -50% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>secObs.observe(s));
 
 // Scroll reveal
 const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:.06,rootMargin:'0px 0px -40px 0px'});
